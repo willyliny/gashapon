@@ -8,15 +8,28 @@ const route = useRoute()
 // 熱門商品數據
 const hotProducts = [
   {
-    id: 1,
+    id: 'volleyball',
     image: '/products/product1.jpg',
     title: '排球少年扭蛋',
     status: '販售中',
     endDate: '2025/05/13(四) 17:59 截止',
-    isNew: true
+    isNew: true,
+    type: 'BOX類型',
+    boxCount: 74,
+    price: 730,
+    shipping: {
+      first: 770,
+      note: '※運費僅限首次購買，第二次以後的訂單免運費'
+    },
+    saleTime: {
+      start: '2025/02/18(二) 17:00',
+      end: '2025/05/13(四) 17:59'
+    },
+    payment: ['信用卡', 'PayPay', '電子支付'],
+    releaseDate: '2025年6月中旬~下旬'
   },
   {
-    id: 2,
+    id: 'yakuza',
     image: '/products/product2.jpg',
     title: '黑道風雲扭蛋',
     status: '已完售',
@@ -24,7 +37,7 @@ const hotProducts = [
     isNew: true
   },
   {
-    id: 3,
+    id: 'baseball',
     image: '/products/product3.jpg',
     title: '胖球大聯盟扭蛋',
     status: '截止',
@@ -41,13 +54,25 @@ const categories = [
     description: '最新一番賞商品都在這裡！',
     products: [
       {
-        id: 1,
+        id: 'gee-kawaii',
         image: '/products/ichiban1.jpg',
-        title: '海賊王一番賞',
+        title: '吉伊卡哇',
         status: '販售中',
-        endDate: '2025/05/13(四) 17:59 截止'
-      },
-      // 可以添加更多商品...
+        endDate: '2025/05/13(四) 17:59 截止',
+        type: 'BOX類型',
+        boxCount: 74,
+        price: 730,
+        shipping: {
+          first: 770,
+          note: '※運費僅限首次購買，第二次以後的訂單免運費'
+        },
+        saleTime: {
+          start: '2025/02/18(二) 17:00',
+          end: '2025/04/09(三) 17:59'
+        },
+        payment: ['信用卡', 'PayPay', '電子支付'],
+        releaseDate: '2025年6月中旬~下旬'
+      }
     ]
   },
   {

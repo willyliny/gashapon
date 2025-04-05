@@ -1,76 +1,150 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-// 商品基本信息
-const productInfo = {
-  title: '【特典】G8卡哇',
-  type: 'BOX類型',
-  boxCount: 74,
-  price: 730,
-  shipping: {
-    first: 770,
-    note: '※運費僅限首次購買，第二次以後的訂單免運費'
-  },
-  saleTime: {
-    start: '2025/02/18(二) 17:00',
-    end: '2025/04/09(三) 17:59'
-  },
-  payment: ['信用卡', 'PayPay', '電子支付'],
-  releaseDate: '2025年6月中旬~下旬'
+const route = useRoute()
+
+// 從 ProductList 獲取商品數據
+const getProductData = (productId) => {
+  // 在這裡實現從 ProductList 獲取商品數據的邏輯
+  const products = {
+    'gee-kawaii': {
+      title: '【特典】吉伊卡哇',
+      type: 'BOX類型',
+      boxCount: 74,
+      price: 730,
+      shipping: {
+        first: 770,
+        note: '※運費僅限首次購買，第二次以後的訂單免運費'
+      },
+      saleTime: {
+        start: '2025/02/18(二) 17:00',
+        end: '2025/04/09(三) 17:59'
+      },
+      payment: ['信用卡', 'PayPay', '電子支付'],
+      releaseDate: '2025年6月中旬~下旬',
+      prizes: [
+        {
+          rank: 'A賞',
+          name: '吉伊卡哇-A',
+          image: '/prizes/prize-a.png',
+          probability: '7.18%',
+          description: '吉伊卡哇-A'
+        },
+        {
+          rank: 'B賞',
+          name: '吉伊卡哇-B',
+          image: '/prizes/prize-b.png',
+          probability: '7.14%',
+          description: '吉伊卡哇-B'
+        },
+        {
+          rank: 'C賞',
+          name: '吉伊卡哇-C',
+          image: '/prizes/prize-c.png',
+          probability: '7.14%',
+          description: '吉伊卡哇-C'
+        },
+        {
+          rank: 'D賞',
+          name: '吉伊卡哇-D',
+          image: '/prizes/prize-d.png',
+          probability: '7.14%',
+          description: '吉伊卡哇-D'
+        },
+        {
+          rank: 'E賞',
+          name: '吉伊卡哇-E',
+          image: '/prizes/prize-e.png',
+          probability: '7.14%',
+          description: '吉伊卡哇-E'
+        },
+        {
+          rank: 'F賞',
+          name: '吉伊卡哇-F',
+          image: '/prizes/prize-f.png',
+          probability: '7.14%',
+          description: '吉伊卡哇-F'
+        }
+      ]
+    },
+    'volleyball': {
+      title: '排球少年扭蛋',
+      type: 'BOX類型',
+      boxCount: 74,
+      price: 730,
+      shipping: {
+        first: 770,
+        note: '※運費僅限首次購買，第二次以後的訂單免運費'
+      },
+      saleTime: {
+        start: '2025/02/18(二) 17:00',
+        end: '2025/05/13(四) 17:59'
+      },
+      payment: ['信用卡', 'PayPay', '電子支付'],
+      releaseDate: '2025年6月中旬~下旬',
+      prizes: [
+        {
+          rank: 'A賞',
+          name: '排球少年-A',
+          image: '/prizes/volleyball-a.jpg',
+          probability: '7.18%',
+          description: '排球少年-A'
+        },
+        {
+          rank: 'B賞',
+          name: '排球少年-B',
+          image: '/prizes/volleyball-b.jpg',
+          probability: '7.14%',
+          description: '排球少年-B'
+        },
+        {
+          rank: 'C賞',
+          name: '排球少年-C',
+          image: '/prizes/volleyball-c.jpg',
+          probability: '7.14%',
+          description: '排球少年-C'
+        },
+        {
+          rank: 'D賞',
+          name: '排球少年-D',
+          image: '/prizes/volleyball-d.jpg',
+          probability: '7.14%',
+          description: '排球少年-D'
+        },
+        {
+          rank: 'E賞',
+          name: '排球少年-E',
+          image: '/prizes/volleyball-e.jpg',
+          probability: '7.14%',
+          description: '排球少年-E'
+        },
+        {
+          rank: 'F賞',
+          name: '排球少年-F',
+          image: '/prizes/volleyball-f.jpg',
+          probability: '7.14%',
+          description: '排球少年-F'
+        }
+        // ... 其他獎項
+      ]
+    }
+  }
+  return products[productId]
 }
 
+// 根據路由參數獲取商品信息
+const productInfo = computed(() => getProductData(route.params.id))
+
 // 獎項數據
-const prizes = [
-  {
-    rank: 'A賞',
-    name: '亞克力時鐘',
-    image: '/prizes/prize-a.png',
-    probability: '7.18%',
-    description: '精美亞克力材質時鐘，附帶精美人物插畫'
-  },
-  {
-    rank: 'B賞',
-    name: '麻婆拉麵碗',
-    image: '/prizes/prize-b.png',
-    probability: '7.14%',
-    description: '特製麻婆拉麵碗，附帶精美圖案'
-  },
-  {
-    rank: 'C賞',
-    name: '馬克杯',
-    image: '/prizes/prize-c.png',
-    probability: '7.14%',
-    description: '精美馬克杯，附帶角色圖案'
-  },
-  {
-    rank: 'D賞',
-    name: '壓克力吊飾',
-    image: '/prizes/prize-d.png',
-    probability: '7.14%',
-    description: '可愛壓克力吊飾'
-  },
-  {
-    rank: 'E賞',
-    name: '迷你角色立牌',
-    image: '/prizes/prize-e.png',
-    probability: '7.14%',
-    description: '迷你尺寸角色立牌'
-  },
-  {
-    rank: 'F賞',
-    name: '徽章套組',
-    image: '/prizes/prize-f.png',
-    probability: '7.14%',
-    description: '精美徽章套組'
-  }
-]
+const prizes = computed(() => productInfo.value?.prizes || [])
 
 // 購買數量
 const quantity = ref(1)
 
 // 增加數量
 const increaseQuantity = () => {
-  if (quantity.value < 74) {
+  if (quantity.value < (productInfo.value?.boxCount || 74)) {
     quantity.value++
   }
 }
@@ -84,7 +158,7 @@ const decreaseQuantity = () => {
 </script>
 
 <template>
-  <div class="bg-gray-50 min-h-screen pt-20 pb-12">
+  <div v-if="productInfo" class="bg-gray-50 min-h-screen pt-20 pb-12">
     <div class="container mx-auto px-4 max-w-6xl">
       <!-- 商品標題 -->
       <div class="bg-white rounded-2xl p-8 mb-8 shadow-sm">
@@ -188,6 +262,9 @@ const decreaseQuantity = () => {
         </div>
       </div>
     </div>
+  </div>
+  <div v-else class="bg-gray-50 min-h-screen pt-20 pb-12 flex items-center justify-center">
+    <div class="text-gray-500">商品不存在或已下架</div>
   </div>
 </template>
 
