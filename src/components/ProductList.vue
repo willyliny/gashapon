@@ -5,12 +5,38 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+// 公佈欄消息數據
+const announcements = [
+  {
+    id: 1,
+    type: '活動',
+    title: '黃金週特別活動開跑！',
+    content: '4月29日～5月5日期間，全站商品免運費！',
+    date: '2024/04/25',
+    isImportant: true
+  },
+  {
+    id: 2,
+    type: '新商品',
+    title: '【新商品預告】排球少年扭蛋第二彈即將上線',
+    content: '預計5月中旬開始販售，敬請期待！',
+    date: '2024/04/20'
+  },
+  {
+    id: 3,
+    type: '通知',
+    title: '系統維護通知',
+    content: '5月1日凌晨0:00～2:00將進行系統維護，期間將暫停服務。',
+    date: '2024/04/18'
+  }
+]
+
 // 熱門商品數據
 const hotProducts = [
   {
     id: 'volleyball',
     image: '/products/product1.jpg',
-    title: '排球少年扭蛋',
+    title: '排球少年徽章',
     status: '販售中',
     endDate: '2025/05/13(四) 17:59 截止',
     isNew: true,
@@ -96,12 +122,26 @@ const categories = [
     description: '精選動漫周邊商品！',
     products: [
       {
-        id: 1,
-        image: '/products/anime1.jpg',
-        title: '動漫限定周邊',
+        id: 'volleyball',
+        image: '/products/product1.jpg',
+        title: '排球少年徽章',
         status: '販售中',
-        endDate: '2025/05/13(四) 17:59 截止'
-      },
+        endDate: '2025/05/13(四) 17:59 截止',
+        isNew: true,
+        type: 'BOX類型',
+        boxCount: 74,
+        price: 730,
+        shipping: {
+          first: 770,
+          note: '※運費僅限首次購買，第二次以後的訂單免運費'
+        },
+        saleTime: {
+          start: '2025/02/18(二) 17:00',
+          end: '2025/05/13(四) 17:59'
+        },
+        payment: ['信用卡', 'PayPay', '電子支付'],
+        releaseDate: '2025年6月中旬~下旬'
+      }
       // 可以添加更多商品...
     ]
   },
@@ -176,6 +216,67 @@ const getStatusStyle = (status) => {
 <template>
   <div class="bg-gray-100 py-20">
     <div class="container mx-auto px-4 max-w-7xl">
+      <!-- 公佈欄區域 -->
+      <section v-if="!currentCategory" class="mb-32">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">最新消息</h2>
+          <p class="text-gray-600">官方公告 & 活動資訊</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div class="divide-y divide-gray-100">
+            <div v-for="announcement in announcements" 
+                 :key="announcement.id"
+                 class="group hover:bg-orange-50/50 transition-colors duration-300">
+              <div class="p-6">
+                <div class="flex items-start gap-4">
+                  <!-- 消息類型標籤 -->
+                  <div :class="[
+                    'px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap',
+                    {
+                      'bg-red-50 text-red-500': announcement.type === '活動',
+                      'bg-blue-50 text-blue-500': announcement.type === '新商品',
+                      'bg-gray-50 text-gray-500': announcement.type === '通知'
+                    }
+                  ]">
+                    {{ announcement.type }}
+                  </div>
+
+                  <!-- 消息內容 -->
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                      <h3 class="text-lg font-bold text-gray-800">
+                        {{ announcement.title }}
+                      </h3>
+                      <span v-if="announcement.isImportant" 
+                            class="bg-red-50 text-red-500 px-2 py-0.5 rounded text-xs font-medium">
+                        重要
+                      </span>
+                    </div>
+                    <p class="text-gray-600 mb-2">{{ announcement.content }}</p>
+                    <div class="text-sm text-gray-400">{{ announcement.date }}</div>
+                  </div>
+
+                  <!-- 箭頭圖標 -->
+                  <div class="text-gray-400 group-hover:text-orange-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="h-5 w-5" 
+                         fill="none" 
+                         viewBox="0 0 24 24" 
+                         stroke="currentColor">
+                      <path stroke-linecap="round" 
+                            stroke-linejoin="round" 
+                            stroke-width="2" 
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- 熱門商品區域 -->
       <section v-if="!currentCategory" class="mb-32">
         <div class="text-center mb-16">
