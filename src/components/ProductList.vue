@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
 // 熱門商品數據
 const hotProducts = [
@@ -96,16 +97,18 @@ const categories = [
   }
 ]
 
-const products = ref([
-  {
-    id: 1,
-    name: '【特典】吉依卡哇',
-    status: '販售中',
-    price: 730,
-    image: '/products/product1.jpg'
-  }
-  // ... 其他商品
-])
+// 根據路由參數獲取當前類別
+const currentCategory = computed(() => {
+  const categoryId = route.params.categoryId
+  if (!categoryId) return null
+  return categories.find(category => category.id === categoryId)
+})
+
+// 只顯示當前類別的產品
+const filteredCategories = computed(() => {
+  if (!currentCategory.value) return categories
+  return [currentCategory.value]
+})
 
 const goToDetail = (productId) => {
   router.push(`/product/${productId}`)
@@ -149,7 +152,7 @@ const getStatusStyle = (status) => {
   <div class="bg-gray-100 py-20">
     <div class="container mx-auto px-4 max-w-7xl">
       <!-- 熱門商品區域 -->
-      <section class="mb-32">
+      <section v-if="!currentCategory" class="mb-32">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold text-gray-800 mb-4">熱門販售中</h2>
           <p class="text-gray-600">網路限定！推薦商品在這裡！</p>
@@ -216,7 +219,7 @@ const getStatusStyle = (status) => {
       </section>
 
       <!-- 分類商品區域 -->
-      <section v-for="category in categories" 
+      <section v-for="category in filteredCategories" 
                :key="category.id"
                class="mb-32">
         <div class="text-center mb-16">
